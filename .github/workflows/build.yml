@@ -17,3 +17,9 @@ jobs:
         run: xcodebuild -workspace MyProject.xcworkspace -scheme MyProject -sdk iphoneos -configuration Release -archivePath MyProject.xcarchive archive
       - name: Export IPA
         run: xcodebuild -exportArchive -archivePath MyProject.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath ./MyProject.ipa
+      - name: Unlink cocoapods
+        run: brew unlink cocoapods
+      - name: Link cocoapods
+        run: brew link --overwrite cocoapods
+      - name: Cleanup cocoapods
+        run: brew cleanup cocoapods
