@@ -1,1 +1,19 @@
+name: Build and Package IPA
 
+on: push
+
+jobs:
+  build:
+    name: Build and Package
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          brew install cocoapods
+          pod install
+      - name: Build IPA
+        run: xcodebuild -workspace MyProject.xcworkspace -scheme MyProject -sdk iphoneos -configuration Release -archivePath MyProject.xcarchive archive
+      - name: Export IPA
+        run: xcodebuild -exportArchive -archivePath MyProject.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath ./MyProject.ipa
